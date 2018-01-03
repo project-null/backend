@@ -1,0 +1,74 @@
+swagger: '2.0'
+info:
+  title: QbVIP backend
+  description: QbVIP backend
+  version: 1.0.0
+paths:
+  /users:
+    get:
+      tags:
+        - user
+      description: 获取所有用户
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+  /users/id/{id}:
+    get:
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: id
+          description: 用户ID
+      description: 获取某用户的信息
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+  /users/loginname/{loginName}:
+    get:
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: loginName
+          description: 用户登录名
+      description: 根据用户登录名获取用户信息
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+  /users/registry:
+    post:
+      tags:
+        - user
+      description: 用户注册
+      parameters:
+        - in: body
+          name: body
+          description: 用户信息
+          schema:
+            $ref: '#/definitions/userinfo'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+definitions:
+  userinfo:
+    properties:
+      loginName:
+        type: string
+      nikeName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+tags:
+  - name: user
+    description: 用户相关API
