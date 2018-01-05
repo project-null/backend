@@ -10,6 +10,15 @@ class Index {
         return dbClient.client().collection(this.tableName);
     }
 
+    getObjectID(id) {
+        try {
+            const _id = new ObjectID(id);
+            return _id;
+        } catch (e) {
+            throw 'id不合法'
+        }
+    }
+
     async save(object) {
         return this.getCollection().insertOne(object);
     }
@@ -19,7 +28,7 @@ class Index {
     }
 
     async get(id) {
-        const _id = new ObjectID(id);
+        let _id = this.getObjectID(id);
         return this.getCollection().findOne({ _id });
     }
     async getOneByKey(obj) {

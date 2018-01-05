@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 
 let favoritesFolderModel = require('../models/favoritesFolder');
-let common = require('./common.js');
+let common = require('./lib/common');
 
 const favoritesFolder = new Router({
     prefix: '/favorites/folder'

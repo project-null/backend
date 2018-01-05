@@ -1,9 +1,7 @@
-
-
 const Router = require('koa-router');
 
-let userModel = require('../models/users.js');
-let common = require('./common.js');
+let userModel = require('../models/users');
+let common = require('./lib/common');
 
 const users = new Router({
     prefix: '/users'

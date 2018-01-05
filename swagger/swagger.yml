@@ -3,7 +3,9 @@ info:
   title: QbVIP backend
   description: QbVIP backend
   version: 1.0.0
-paths:  
+paths:
+
+  # 用户部分 start
   /users:
     get:
       tags:
@@ -71,12 +73,14 @@ paths:
           description: ''
         '400':
           description: no enough input
+  # 用户部分 end  
 
+  # 网页收藏夹 start
   /favorites/folder:
     get:
       tags:
-        - favorites_folder
-      description: 获取所有收藏夹              
+        - favorites
+      description: 获取所有收藏夹
       responses:
         '200':
           description: ''
@@ -84,7 +88,7 @@ paths:
           description: no enough input
     post:
       tags:
-        - favorites_folder
+        - favorites
       description: 添加收藏夹
       parameters:
         - in: body
@@ -96,15 +100,28 @@ paths:
         '200':
           description: ''
         '400':
-          description: no enough input    
-  /favorites/folder/{id}:
+          description: no enough input
+  /favorites/folder/{folderID}:
+    get:
+      tags:
+        - favorites
+      description: 列出该收藏夹下的所有地址
+      parameters:
+        - in: path
+          name: folderID
+          description: 收藏夹ID        
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
     put:
       tags:
-        - favorites_folder
+        - favorites
       description: 添加收藏夹
       parameters:
         - in: path
-          name: id
+          name: folderID
           description: 收藏夹ID
         - in: body
           name: body
@@ -118,26 +135,26 @@ paths:
           description: no enough input
     delete:
       tags:
-        - favorites_folder
+        - favorites
       description: 删除收藏夹文件夹
       parameters:
         - in: path
           name: id
-          description: 收藏夹目录ID        
+          description: 收藏夹目录ID
       responses:
         '200':
           description: ''
         '400':
           description: no enough input
 
-  /favorites/folder/{folderid}/website:
+  /favorites/folder/{folderID}/website:
     post:
       tags:
         - favorites
       description: 添加收藏夹
       parameters:
         - in: path
-          name: folderid
+          name: folderID
           description: 收藏夹目录ID
         - in: body
           name: body
@@ -149,16 +166,17 @@ paths:
           description: ''
         '400':
           description: no enough input  
-  /favorites/folder/{folderid}/website/{wsID}:
+                    
+  /favorites/folder/{folderID}/website/{wsID}:
     put:
       tags:
         - favorites
       description: 编辑收藏夹
       parameters:
-        - in: id
-          name: folderid
+        - in: path
+          name: folderID
           description: 收藏夹目录ID
-        - in: id
+        - in: path
           name: wsID
           description: 站点ID
         - in: body
@@ -176,10 +194,10 @@ paths:
         - favorites
       description: 删除收藏夹
       parameters:
-        - in: id
-          name: folderid
+        - in: path
+          name: folderID
           description: 收藏夹目录ID
-        - in: id
+        - in: path
           name: wsID
           description: 站点ID     
       responses:
@@ -187,7 +205,9 @@ paths:
           description: ''
         '400':
           description: no enough input
-                    
+  # 网页收藏夹 end
+
+
 definitions:
   userinfo:
     type: object
@@ -202,15 +222,17 @@ definitions:
         type: string  
   favorites:
     type: object
-    properties:
+    properties:      
+      name:
+        type: string 
+      desc:
+        type: string 
       label:
         type: array
       iconURL:
         type: string
       url:
         type: string
-      name:
-        type: string 
   favorites_folder:
     type: object
     properties:      
@@ -219,11 +241,9 @@ definitions:
       desc:
         type: string
       order:
-        type: number 
+        type: number
 tags:
   - name: user
     description: 用户相关API
-  - name: favorites_folder
-    description: 收藏夹文件夹
   - name: favorites
     description: 收藏站点
