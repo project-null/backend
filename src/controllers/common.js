@@ -7,4 +7,10 @@ module.exports = {
             message: data,
         };
     },
+    returnDone(ctx, message = 'done') {
+        ctx.body = {
+            code: 0,
+            message,
+        };
+    }
 }

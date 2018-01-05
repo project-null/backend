@@ -3,7 +3,7 @@ info:
   title: QbVIP backend
   description: QbVIP backend
   version: 1.0.0
-paths:
+paths:  
   /users:
     get:
       tags:
@@ -14,7 +14,7 @@ paths:
           description: ''
         '400':
           description: no enough input
-  /users/id/{id}:
+  /users/{id}:
     get:
       tags:
         - user
@@ -23,6 +23,19 @@ paths:
           name: id
           description: 用户ID
       description: 获取某用户的信息
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+    delete:
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: id
+          description: 用户ID
+      description: 删除用户
       responses:
         '200':
           description: ''
@@ -58,8 +71,126 @@ paths:
           description: ''
         '400':
           description: no enough input
+
+  /favorites/folder:
+    get:
+      tags:
+        - favorites_folder
+      description: 获取所有收藏夹              
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+    post:
+      tags:
+        - favorites_folder
+      description: 添加收藏夹
+      parameters:
+        - in: body
+          name: body
+          description: 收藏夹信息
+          schema:
+            $ref: '#/definitions/favorites_folder'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input    
+  /favorites/folder/{id}:
+    put:
+      tags:
+        - favorites_folder
+      description: 添加收藏夹
+      parameters:
+        - in: path
+          name: id
+          description: 收藏夹ID
+        - in: body
+          name: body
+          description: 收藏夹信息
+          schema:
+            $ref: '#/definitions/favorites_folder'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+    delete:
+      tags:
+        - favorites_folder
+      description: 删除收藏夹文件夹
+      parameters:
+        - in: path
+          name: id
+          description: 收藏夹目录ID        
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+
+  /favorites/folder/{folderid}/website:
+    post:
+      tags:
+        - favorites
+      description: 添加收藏夹
+      parameters:
+        - in: path
+          name: folderid
+          description: 收藏夹目录ID
+        - in: body
+          name: body
+          description: 收藏夹信息
+          schema:
+            $ref: '#/definitions/favorites'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input  
+  /favorites/folder/{folderid}/website/{wsID}:
+    put:
+      tags:
+        - favorites
+      description: 编辑收藏夹
+      parameters:
+        - in: id
+          name: folderid
+          description: 收藏夹目录ID
+        - in: id
+          name: wsID
+          description: 站点ID
+        - in: body
+          name: body
+          description: 站点内容
+          schema:
+            $ref: '#/definitions/favorites'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+    delete:
+      tags:
+        - favorites
+      description: 删除收藏夹
+      parameters:
+        - in: id
+          name: folderid
+          description: 收藏夹目录ID
+        - in: id
+          name: wsID
+          description: 站点ID     
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+                    
 definitions:
   userinfo:
+    type: object
     properties:
       loginName:
         type: string
@@ -68,7 +199,31 @@ definitions:
       email:
         type: string
       password:
+        type: string  
+  favorites:
+    type: object
+    properties:
+      label:
+        type: array
+      iconURL:
         type: string
+      url:
+        type: string
+      name:
+        type: string 
+  favorites_folder:
+    type: object
+    properties:      
+      name:
+        type: string
+      desc:
+        type: string
+      order:
+        type: number 
 tags:
   - name: user
     description: 用户相关API
+  - name: favorites_folder
+    description: 收藏夹文件夹
+  - name: favorites
+    description: 收藏站点

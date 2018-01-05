@@ -10,14 +10,19 @@ app.use(serve({ rootDir: 'swagger', rootPath: '/swagger' }))
 
 app.use(bodyParser());
 
-// router
+// 加载路由
 const router = require('./src/routers/index.js');
 router(app);
 
 // 初始化mongodb数据库并增加到context中
-const dbClient = require('./src/models/mongodb.js');
+const dbClient = require('./src/models/lib/mongodb.js');
 app.context.dbClient = dbClient;
 app.context.dbClient.connect();
 
 
-app.listen(3000); 
+// 读取配置文件
+const util = require('./src/common/util.js');
+app.context.config = util.getConfig();
+
+console.info(`server port : ${util.getConfig().port}`);
+app.listen(util.getConfig().port); 
