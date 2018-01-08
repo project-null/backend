@@ -24,5 +24,13 @@ app.context.dbClient.connect();
 const util = require('./src/common/util.js');
 app.context.config = util.getConfig();
 
+
+
+
+const userModel = require('./src/models/users');
+app.context.model = {
+    user: userModel
+}
+
 console.info(`server port : ${util.getConfig().port}`);
 app.listen(util.getConfig().port); 

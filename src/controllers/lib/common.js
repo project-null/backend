@@ -25,7 +25,7 @@ module.exports = {
             let check = parameter[v];
 
             // 检查必填项
-            if (!!check.require && value === undefined) {
+            if (!!check.require && !!!value || value === undefined) {
                 return `字段${v}:必填`
             }
 

@@ -6,6 +6,32 @@ let common = require('./lib/common');
 const users = new Router({
     prefix: '/users'
 });
+users.post('/login', async ctx => {
+    let user = ctx.request.body;
+    const { loginName, password } = user;
+
+    const paramterType = {
+        loginName: {
+            require: true,
+            type: 'string',
+        },
+        password: {
+            require: true,
+            type: 'string',
+        }
+    };
+
+    let result = common.parameterCheck(user, paramterType)
+
+    if (result.length > 0) {
+        return common.returnError(ctx, 400, 001, result);
+    }
+    await userModel.login(user)
+        .then(r => ctx.body = r)
+        .catch(e => {
+            console.log(e);
+        })
+});
 
 users.get('/', async (ctx, next) => {
     await userModel.getAll().then(users => ctx.body = users);

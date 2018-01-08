@@ -11,6 +11,13 @@ paths:
       tags:
         - user
       description: 获取所有用户
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
       responses:
         '200':
           description: ''
@@ -21,6 +28,12 @@ paths:
       tags:
         - user
       parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
         - in: path
           name: id
           description: 用户ID
@@ -34,10 +47,38 @@ paths:
       tags:
         - user
       parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
         - in: path
           name: id
           description: 用户ID
       description: 删除用户
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+  /users/login:
+    post:
+      tags:
+        - user
+      description: 登录系统
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
+        - in: body
+          name: body
+          description: 用户信息
+          schema:
+            $ref: '#/definitions/userLogin'   
       responses:
         '200':
           description: ''
@@ -48,6 +89,12 @@ paths:
       tags:
         - user
       parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
         - in: path
           name: loginName
           description: 用户登录名
@@ -81,6 +128,13 @@ paths:
       tags:
         - favorites
       description: 获取所有收藏夹
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
       responses:
         '200':
           description: ''
@@ -91,6 +145,12 @@ paths:
         - favorites
       description: 添加收藏夹
       parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
         - in: body
           name: body
           description: 收藏夹信息
@@ -107,6 +167,12 @@ paths:
         - favorites
       description: 列出该收藏夹下的所有地址
       parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
         - in: path
           name: folderID
           description: 收藏夹ID        
@@ -120,6 +186,12 @@ paths:
         - favorites
       description: 添加收藏夹
       parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
         - in: path
           name: folderID
           description: 收藏夹ID
@@ -138,6 +210,12 @@ paths:
         - favorites
       description: 删除收藏夹文件夹
       parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
         - in: path
           name: id
           description: 收藏夹目录ID
@@ -153,6 +231,12 @@ paths:
         - favorites
       description: 添加收藏夹
       parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
         - in: path
           name: folderID
           description: 收藏夹目录ID
@@ -173,6 +257,12 @@ paths:
         - favorites
       description: 编辑收藏夹
       parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
         - in: path
           name: folderID
           description: 收藏夹目录ID
@@ -194,6 +284,12 @@ paths:
         - favorites
       description: 删除收藏夹
       parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
         - in: path
           name: folderID
           description: 收藏夹目录ID
@@ -209,6 +305,13 @@ paths:
 
 
 definitions:
+  userLogin:
+    type: object
+    properties:
+      loginName:
+        type: string 
+      password:
+        type: string
   userinfo:
     type: object
     properties:
