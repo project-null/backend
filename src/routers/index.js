@@ -28,7 +28,7 @@ return next(ctx);
 }
 
 module.exports = (app) => {
-    app.use(checkToken);
+    // app.use(checkToken);
     app.use(usersController.routes());
     app.use(favoritesFolderController.routes());
     app.use(favoritesController.routes());

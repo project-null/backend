@@ -4,7 +4,7 @@ let userModel = require('../models/users');
 let common = require('./lib/common');
 
 const users = new Router({
-    prefix: '/users'
+    prefix: '/v1/users'
 });
 users.post('/login', async ctx => {
     let user = ctx.request.body;

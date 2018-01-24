@@ -8,7 +8,7 @@ let favoritesFolderModel = require('../models/favoritesFolder');
 
 
 const favorites = new Router({
-    prefix: '/favorites/folder'
+    prefix: '/v1/favorites/folder'
 });
 
 favorites.get('/:folderID', async ctx => {

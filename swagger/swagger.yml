@@ -6,7 +6,7 @@ info:
 paths:
 
   # 用户部分 start
-  /users:
+  /v1/users:
     get:
       tags:
         - user
@@ -23,7 +23,7 @@ paths:
           description: ''
         '400':
           description: no enough input
-  /users/{id}:
+  /v1/users/{id}:
     get:
       tags:
         - user
@@ -62,7 +62,7 @@ paths:
           description: ''
         '400':
           description: no enough input
-  /users/login:
+  /v1/users/login:
     post:
       tags:
         - user
@@ -84,7 +84,7 @@ paths:
           description: ''
         '400':
           description: no enough input
-  /users/loginname/{loginName}:
+  /v1/users/loginname/{loginName}:
     get:
       tags:
         - user
@@ -104,7 +104,7 @@ paths:
           description: ''
         '400':
           description: no enough input
-  /users/registry:
+  /v1/users/registry:
     post:
       tags:
         - user
@@ -123,7 +123,7 @@ paths:
   # 用户部分 end  
 
   # 网页收藏夹 start
-  /favorites/folder:
+  /v1/favorites/folder:
     get:
       tags:
         - favorites
@@ -161,7 +161,7 @@ paths:
           description: ''
         '400':
           description: no enough input
-  /favorites/folder/{folderID}:
+  /v1/favorites/folder/{folderID}:
     get:
       tags:
         - favorites
@@ -225,7 +225,7 @@ paths:
         '400':
           description: no enough input
 
-  /favorites/folder/{folderID}/website:
+  /v1/favorites/folder/{folderID}/website:
     post:
       tags:
         - favorites
@@ -251,7 +251,7 @@ paths:
         '400':
           description: no enough input  
                     
-  /favorites/folder/{folderID}/website/{wsID}:
+  /v1/favorites/folder/{folderID}/website/{wsID}:
     put:
       tags:
         - favorites

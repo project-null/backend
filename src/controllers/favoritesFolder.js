@@ -4,7 +4,7 @@ let favoritesFolderModel = require('../models/favoritesFolder');
 let common = require('./lib/common');
 
 const favoritesFolder = new Router({
-    prefix: '/favorites/folder'
+    prefix: '/v1/favorites/folder'
 });
 
 favoritesFolder.post('/', async ctx => {
