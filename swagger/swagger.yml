@@ -303,6 +303,65 @@ paths:
           description: no enough input
   # 网页收藏夹 end
 
+  /v1/accounts:
+    get:
+      tags:
+        - account
+      description: 获取所有的账号
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true        
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+    post:
+      tags:
+        - account
+      description: 创建账号
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true    
+        - in: body
+          name: body
+          description: 账号内容
+          schema:
+            $ref: '#/definitions/account'    
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+    put:
+      tags:
+        - account
+      description: 编辑账号
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true        
+        - in: body
+          name: body
+          description: 账号内容
+          schema:
+            $ref: '#/definitions/account'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
 
 definitions:
   userLogin:
@@ -345,8 +404,25 @@ definitions:
         type: string
       order:
         type: number
+  account:
+    type: object
+    properties:      
+      url:
+        type: string
+      type:
+        type: string
+      accountName:
+        type: string
+      password:
+        type: string
+      labels:
+        type: array
+      common:
+        type: string
 tags:
   - name: user
     description: 用户相关API
   - name: favorites
     description: 收藏站点
+  - name: account
+    description: 账号管理

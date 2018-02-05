@@ -1,9 +1,14 @@
 const dbClient = require('./mongodb');
 const ObjectID = require('mongodb').ObjectID;
+const uuid = require('node-uuid');
 
 class Index {
     constructor(config) {
         this.tableName = config.tableName;
+    }
+
+    genUUID(objects) {
+        objects.uuid = uuid.v4();        
     }
 
     getCollection() {

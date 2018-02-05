@@ -3,6 +3,8 @@
 const usersController = require('../controllers/users');
 const favoritesFolderController = require('../controllers/favoritesFolder');
 const favoritesController = require('../controllers/favorites');
+const accountController = require('../controllers/accounts');
+
 
 const checkToken = async (ctx, next) => {
 return next(ctx);
@@ -11,6 +13,7 @@ return next(ctx);
     }
 
     let token = ctx.request.header.token;
+    console.log('token:',token);
     if (!!token) {
         let loginInfo = token.split(':');
         if (loginInfo.length === 2) {
@@ -32,4 +35,5 @@ module.exports = (app) => {
     app.use(usersController.routes());
     app.use(favoritesFolderController.routes());
     app.use(favoritesController.routes());
+    app.use(accountController.routes());
 };
