@@ -1,11 +1,15 @@
 const Koa = require('koa');
 const path = require('path');
 const bodyParser = require('koa-bodyparser');
+const logger = require('koa-logger')
 
 const app = new Koa();
 
+// 使用日志模块
+app.use(logger())
+
 // swagger
-var serve = require('koa-static-server')
+const serve = require('koa-static-server')
 app.use(serve({ rootDir: 'swagger', rootPath: '/swagger' }))
 
 app.use(bodyParser());
@@ -23,8 +27,6 @@ app.context.dbClient.connect();
 // 读取配置文件
 const util = require('./src/common/util.js');
 app.context.config = util.getConfig();
-
-
 
 
 const userModel = require('./src/models/users');

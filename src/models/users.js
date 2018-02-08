@@ -10,7 +10,7 @@ class Index extends DBController {
         this.loginUserMap = {};
         console.log('users model init');
         this.checkToken();
-        this.tokenCheckCycleTime = 5;
+        this.tokenCheckCycleTime = 10;
     }
 
     checkToken() {
@@ -18,12 +18,12 @@ class Index extends DBController {
             let now = new Date().getTime() / 1000;
             _.forOwn(this.loginUserMap, item => {
                 if ((now - item.loginTime) > 60 * this.tokenCheckCycleTime) {
-                    delete this.loginUserMap[item.loginName];
-                    console.log(`${item.token}已失效`);
+                    delete this.loginUserMap[item.token];
+                    // console.log(`${item.token}已失效`);
                 }
-                console.log(item.token, item.loginTime - now);
+                // console.log(item.token, item.loginTime - now);
             });
-        }, 1000 * 6)
+        }, 1000 * 60)
     }
 
     // 用户登录
@@ -44,7 +44,7 @@ class Index extends DBController {
     }
 
     async logout(user) {
-
+        delete this.loginUserMap[item.token];                
     }
 }
 let usersController = new Index(config);
