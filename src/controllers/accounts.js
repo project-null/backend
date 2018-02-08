@@ -1,5 +1,4 @@
 
-
 const Router = require('koa-router');
 let common = require('./lib/common');
 let AccountModel = require('../models/accounts');
@@ -12,19 +11,51 @@ account.get('/', async ctx => {
     await AccountModel.getAll().then(users => ctx.body = users);
 });
 
+account.delete('/:id', async ctx => {
+    const uuid = ctx.params.id;
+
+    await AccountModel.delete(uuid)
+        .then(result => {
+            common.returnDone(ctx)
+        }, err => common.returnError(ctx, 500, 01, err))
+        .catch(err => {
+            common.returnError(ctx, 500, err);
+        });
+});
+
 account.post('/', async ctx => {
     let account = ctx.request.body;
-    const { url, type, accountName, password } = account;
+    const { url, type, accountName, secretText } = account;
 
-    if (!url || !type || !accountName || !password) {
-        return common.returnError(ctx, 400, 01, "url, type, accountName, password 不可为空");
+    if (!url || !type || !accountName || !secretText) {
+        return common.returnError(ctx, 400, 01, "url, type, accountName, secretText 不可为空");
     }
 
-    AccountModel.genUUID(account);
     AccountModel.save(account);
-
     return common.returnDone(ctx);
 });
+
+account.put('/', async ctx => {
+    let account = ctx.request.body;
+    const { _id, url, type, accountName, secretText } = account;
+
+    if (!url || !type || !accountName || !secretText || !_id) {
+        return common.returnError(ctx, 400, 01, "_id,url, type, accountName, secretText 不可为空");
+    }
+
+    let result = await AccountModel.get(_id);
+
+    if (!!result) {
+        await AccountModel.update(_id, account).then(r => {
+            common.returnDone(ctx);
+        }, err => {
+            common.returnError(ctx, 500, err);
+        });
+    } else {
+        common.returnError(ctx, 500, `${uuid}账号不存在`);
+    }
+});
+
 
 
 module.exports = account;

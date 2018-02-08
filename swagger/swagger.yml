@@ -67,13 +67,7 @@ paths:
       tags:
         - user
       description: 登录系统
-      parameters:
-        - in: header
-          name: token
-          schema:
-            type: string
-            format: uuid
-          required: true
+      parameters:        
         - in: body
           name: body
           description: 用户信息
@@ -357,6 +351,26 @@ paths:
           description: 账号内容
           schema:
             $ref: '#/definitions/account'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+  /v1/accounts/{accountUUID}:    
+    delete:
+      tags:
+        - account
+      description: 删除账号
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true        
+        - in: path
+          name: accountUUID
+          description: 账号UUID
       responses:
         '200':
           description: ''

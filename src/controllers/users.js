@@ -6,6 +6,7 @@ let common = require('./lib/common');
 const users = new Router({
     prefix: '/v1/users'
 });
+
 users.post('/login', async ctx => {
     let user = ctx.request.body;
     const { loginName, password } = user;
@@ -29,7 +30,7 @@ users.post('/login', async ctx => {
     await userModel.login(user)
         .then(r => ctx.body = r)
         .catch(e => {
-            console.log(e);
+            common.returnError(ctx, 401, 002, e);
         })
 });
 

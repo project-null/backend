@@ -7,31 +7,31 @@ const accountController = require('../controllers/accounts');
 
 
 const checkToken = async (ctx, next) => {
-return next(ctx);
-    if (ctx.request.url === '/users/login') {
+    // return next(ctx);
+     console.log(ctx.request.url);
+    if (ctx.request.url === '/v1/users/login') {
         return next(ctx);
     }
 
     let token = ctx.request.header.token;
-    console.log('token:',token);
-    if (!!token) {
+
+    console.log('token:', token);
+    if (!!token) {        
         let loginInfo = token.split(':');
-        if (loginInfo.length === 2) {
-            let LUser = loginInfo[0]
-            let LToken = loginInfo[1]
-            let user = ctx.model.user.loginUserMap[LUser];
-            if (!!user && user.token === token) {
-                return next(ctx)
-            }
-        }
+        let tokenMap = ctx.model.user.loginUserMap;
+
+        if (tokenMap && tokenMap[token]) {
+            console.log(tokenMap[token]);
+            return next(ctx);
+        } 
     }
-    
+
     ctx.status = 401
     ctx.body = '当前token无效，请重新登陆';
 }
 
 module.exports = (app) => {
-    // app.use(checkToken);
+    app.use(checkToken);
     app.use(usersController.routes());
     app.use(favoritesFolderController.routes());
     app.use(favoritesController.routes());

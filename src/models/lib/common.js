@@ -8,7 +8,7 @@ class Index {
     }
 
     genUUID(objects) {
-        objects.uuid = uuid.v4();        
+        objects.uuid = uuid.v4();
     }
 
     getCollection() {
@@ -41,14 +41,23 @@ class Index {
     }
 
     async update(id, object) {
-        const _id = new ObjectID(id);
+        const _id = this.getObjectID(id);
         delete object._id
         return this.getCollection().updateOne({ _id }, { $set: object });
     }
 
     async delete(id) {
-        const _id = new ObjectID(id);
-        return this.getCollection().removeOne({ _id });
+        try {
+            const _id = this.getObjectID(id);
+            return this.getCollection().removeOne({ _id });
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async deleteByUUID(uuid) {
+        console.log(uuid);
+        return this.getCollection().removeOne(uuid);
     }
 }
 
