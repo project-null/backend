@@ -1,6 +1,6 @@
-const dbClient = require('./mongodb');
-const ObjectID = require('mongodb').ObjectID;
-const uuid = require('node-uuid');
+import dbClient from './mongodb';
+import { ObjectID } from 'mongodb';
+import uuid from 'node-uuid';
 
 class Index {
     constructor(config) {
@@ -54,11 +54,8 @@ class Index {
             throw e;
         }
     }
-
     async deleteByUUID(uuid) {
-        console.log(uuid);
         return this.getCollection().removeOne(uuid);
     }
 }
-
-module.exports = Index
+export default Index;

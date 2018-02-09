@@ -1,10 +1,10 @@
-const usersController = require('../controllers/users');
-const favoritesFolderController = require('../controllers/favoritesFolder');
-const favoritesController = require('../controllers/favorites');
-const accountController = require('../controllers/accounts');
+import usersController from '../controllers/users';
+import favoritesFolderController from '../controllers/favoritesFolder';
+import favoritesController from '../controllers/favorites';
+import accountController from '../controllers/accounts';
 
 
-const checkToken = async (ctx, next) => {    
+const checkToken = async (ctx, next) => {
     if (ctx.request.url === '/v1/users/login') {
         return next(ctx);
     }
@@ -15,7 +15,7 @@ const checkToken = async (ctx, next) => {
         let loginInfo = token.split(':');
         let tokenMap = ctx.model.user.loginUserMap;
 
-        if (tokenMap && tokenMap[token]) {            
+        if (tokenMap && tokenMap[token]) {
             return next(ctx);
         }
     }
@@ -24,7 +24,7 @@ const checkToken = async (ctx, next) => {
     ctx.body = '当前token无效，请重新登陆';
 }
 
-module.exports = (app) => {
+export default (app) => {
     app.use(checkToken);
     app.use(usersController.routes());
     app.use(favoritesFolderController.routes());

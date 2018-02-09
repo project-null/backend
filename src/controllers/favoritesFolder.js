@@ -1,7 +1,6 @@
-const Router = require('koa-router');
-
-let favoritesFolderModel = require('../models/favoritesFolder');
-let common = require('./lib/common');
+import Router from 'koa-router';
+import favoritesFolderModel from '../models/favoritesFolder';
+import common from './lib/common';
 
 const favoritesFolder = new Router({
     prefix: '/v1/favorites/folder'
@@ -78,4 +77,4 @@ favoritesFolder.delete('/:id', async ctx => {
     }
 });
 
-module.exports = favoritesFolder;
+export default favoritesFolder;

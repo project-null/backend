@@ -1,8 +1,8 @@
 
 
-const Router = require('koa-router');
-let common = require('./lib/common');
-let favoritesModel = require('../models/favorites');
+import Router  from 'koa-router';
+import common from './lib/common';
+import favoritesModel from '../models/favorites';
 
 let favoritesFolderModel = require('../models/favoritesFolder');
 
@@ -34,7 +34,7 @@ favorites.post('/:folderID/website', async ctx => {
 
     let result = common.parameterCheck(body, paramterType)
     if (result.length > 0) {
-        return common.returnError(ctx, 400, 001, result);
+        return common.returnError(ctx, 400, 1, result);
     }
     try {
         let folder = await favoritesFolderModel.get(folderID);
@@ -81,7 +81,7 @@ favorites.put('/:folderID/website/:wsid', async ctx => {
     };
     let result = common.parameterCheck(body, paramterType)
     if (result.length > 0) {
-        return common.returnError(ctx, 400, 001, result);
+        return common.returnError(ctx, 400, 1, result);
     }
 
     try {
@@ -101,4 +101,4 @@ favorites.put('/', async function (ctx, next) {
 
 });
 
-module.exports = favorites;
+export default favorites;

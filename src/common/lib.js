@@ -7,7 +7,7 @@
 var crypto = require('crypto');
 
 // encrypt/decrypt functions
-module.exports = {
+export default  {
 
     /**
      * Encrypts text by given key

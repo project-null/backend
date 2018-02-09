@@ -1,10 +1,10 @@
-const MongoClient = require('mongodb').MongoClient;
-const util = require('../../common/util');
+import { MongoClient } from 'mongodb';
+import util from '../../common/util';
 
 const url = util.getConfig().mongodb.url;
 const dbName = util.getConfig().mongodb.dbName;
 
-module.exports = {
+export default {
     mongodbClient: null,
     dbClient: null,
     async connect() {

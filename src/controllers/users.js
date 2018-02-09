@@ -1,7 +1,6 @@
-const Router = require('koa-router');
-
-let userModel = require('../models/users');
-let common = require('./lib/common');
+import Router from 'koa-router';
+import userModel from '../models/users';
+import common from './lib/common';
 
 const users = new Router({
     prefix: '/v1/users'
@@ -25,12 +24,12 @@ users.post('/login', async ctx => {
     let result = common.parameterCheck(user, paramterType)
 
     if (result.length > 0) {
-        return common.returnError(ctx, 400, 001, result);
+        return common.returnError(ctx, 400, 1, result);
     }
     await userModel.login(user)
         .then(r => ctx.body = r)
         .catch(e => {
-            common.returnError(ctx, 401, 002, e);
+            common.returnError(ctx, 401, 2, e);
         })
 });
 
@@ -102,4 +101,4 @@ users.post('/registry', async (ctx, next) => {
     });
 });
 
-module.exports = users;
+export default users;

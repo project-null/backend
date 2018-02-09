@@ -1,7 +1,7 @@
 
-const Router = require('koa-router');
-let common = require('./lib/common');
-let AccountModel = require('../models/accounts');
+import Router from 'koa-router';
+import common from './lib/common';
+import AccountModel from '../models/accounts';
 
 const account = new Router({
     prefix: '/v1/accounts'
@@ -17,7 +17,7 @@ account.delete('/:id', async ctx => {
     await AccountModel.delete(uuid)
         .then(result => {
             common.returnDone(ctx)
-        }, err => common.returnError(ctx, 500, 01, err))
+        }, err => common.returnError(ctx, 500, 1, err))
         .catch(err => {
             common.returnError(ctx, 500, err);
         });
@@ -28,7 +28,7 @@ account.post('/', async ctx => {
     const { url, type, accountName, secretText } = account;
 
     if (!url || !type || !accountName || !secretText) {
-        return common.returnError(ctx, 400, 01, "url, type, accountName, secretText 不可为空");
+        return common.returnError(ctx, 400, 1, "url, type, accountName, secretText 不可为空");
     }
 
     AccountModel.save(account);
@@ -40,7 +40,7 @@ account.put('/', async ctx => {
     const { _id, url, type, accountName, secretText } = account;
 
     if (!url || !type || !accountName || !secretText || !_id) {
-        return common.returnError(ctx, 400, 01, "_id,url, type, accountName, secretText 不可为空");
+        return common.returnError(ctx, 400, 1, "_id,url, type, accountName, secretText 不可为空");
     }
 
     let result = await AccountModel.get(_id);
@@ -56,6 +56,4 @@ account.put('/', async ctx => {
     }
 });
 
-
-
-module.exports = account;
+export default account;

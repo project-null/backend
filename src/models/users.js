@@ -1,5 +1,5 @@
-let DBController = require('./lib/common');
-const uuid = require('node-uuid');
+import DBController from './lib/common';
+import uuid from 'node-uuid';
 let config = { tableName: 'user' };
 
 const _ = require('lodash');
@@ -50,4 +50,4 @@ class Index extends DBController {
 let usersController = new Index(config);
 
 
-module.exports = usersController;
+export default usersController;

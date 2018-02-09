@@ -1,4 +1,4 @@
-module.exports = {    
+const common = {    
     // 统一错误返回格式
     returnError(ctx, httpStatus, errorCode, data) {
         ctx.status = httpStatus;
@@ -47,3 +47,4 @@ module.exports = {
         });
     }
 }
+export default common;
