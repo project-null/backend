@@ -4,7 +4,10 @@ import {
     GraphQLString,
     GraphQLInt
 } from 'graphql'
+
 import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
+
+import Account from '../models/accounts';
 
 
 import koaRouter from 'koa-router';
@@ -24,9 +27,11 @@ const User = new GraphQLObjectType({
     name: 'User',
     description: 'User对象',
     fields: {
-        id: {
+        _id: {
+            type: GraphQLString,            
+        },
+        type: {
             type: GraphQLInt,
-            description: '对象',
         },
         name: {
             type: GraphQLString
@@ -39,14 +44,10 @@ const Query = new GraphQLObjectType({
     fields: {
         user: {
             type: User,
-            args: {
-                id: {
-                    type: GraphQLInt
-                }
-            },
-            resolve: function (_, args) {
-                // return 1;
-                return data[args.id];
+            resolve: async function (_, args) {
+                let list = await Account.getAll();
+                console.log(list);
+                return list[0];
             }
         }
     }
