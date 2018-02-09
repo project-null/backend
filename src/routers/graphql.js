@@ -1,42 +1,61 @@
-import koaRouter from 'koa-router';
+import {
+    GraphQLObjectType,
+    GraphQLSchema,
+    GraphQLString,
+    GraphQLInt
+} from 'graphql'
 import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
-import { makeExecutableSchema } from 'graphql-tools';
-import Account from '../models/accounts';
 
-var typeDefs = [`
-interface Animal{
-    name: String!
+
+import koaRouter from 'koa-router';
+// 我们要用的模拟数据
+const data = {
+    "1": {
+        "id": "1",
+        "name": 'a1',
+    },
+    "2": {
+        "id": "1",
+        "name": 'a1',
+    }
 }
 
-type Dog implements Animal{
-    name: String!    
-    accountName: String!
-    _id:String!
-    url:String!
-    secretText:String!    
-}
-
-type Query {
-  hello: String,
-  account: [Dog],
-}
-
-schema {
-  query: Query
-}`];
-
-var resolvers = {
-    Query: {
-        async account(root) {
-            return await Account.getAll();
+const User = new GraphQLObjectType({
+    name: 'User',
+    description: 'User对象',
+    fields: {
+        id: {
+            type: GraphQLInt,
+            description: '对象',
         },
-        hello(root) {
-            return 'world';
+        name: {
+            type: GraphQLString
         }
     }
-};
+});
 
-var schema = makeExecutableSchema({ typeDefs, resolvers });
+const Query = new GraphQLObjectType({
+    name: 'Query',
+    fields: {
+        user: {
+            type: User,
+            args: {
+                id: {
+                    type: GraphQLInt
+                }
+            },
+            resolve: function (_, args) {
+                // return 1;
+                return data[args.id];
+            }
+        }
+    }
+});
+
+const schema = new GraphQLSchema({
+    query: Query
+});
+
 
 const graphQLrouter = new koaRouter();
 graphQLrouter.post('/graphql', graphqlKoa({ schema }));
