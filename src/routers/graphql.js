@@ -1,55 +1,15 @@
+import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
+import koaRouter from 'koa-router';
+import account from './account';
 import {
     GraphQLObjectType,
-    GraphQLSchema,
-    GraphQLString,
-    GraphQLInt
-} from 'graphql'
-
-import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
-
-import Account from '../models/accounts';
-
-
-import koaRouter from 'koa-router';
-// 我们要用的模拟数据
-const data = {
-    "1": {
-        "id": "1",
-        "name": 'a1',
-    },
-    "2": {
-        "id": "1",
-        "name": 'a1',
-    }
-}
-
-const User = new GraphQLObjectType({
-    name: 'User',
-    description: 'User对象',
-    fields: {
-        _id: {
-            type: GraphQLString,            
-        },
-        type: {
-            type: GraphQLInt,
-        },
-        name: {
-            type: GraphQLString
-        }
-    }
-});
+    GraphQLSchema
+} from 'graphql';
 
 const Query = new GraphQLObjectType({
     name: 'Query',
     fields: {
-        user: {
-            type: User,
-            resolve: async function (_, args) {
-                let list = await Account.getAll();
-                console.log(list);
-                return list[0];
-            }
-        }
+        account,
     }
 });
 
