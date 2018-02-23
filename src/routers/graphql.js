@@ -1,6 +1,9 @@
 import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
 import koaRouter from 'koa-router';
+
 import account from '../schema/account';
+import favorites from '../schema/favorites';
+
 import {
     GraphQLObjectType,
     GraphQLSchema
@@ -10,6 +13,7 @@ const Query = new GraphQLObjectType({
     name: 'Query',
     fields: {
         account,
+        favorites
     }
 });
 

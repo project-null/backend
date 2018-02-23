@@ -430,7 +430,7 @@ tags:
   - name: user
     description: 用户相关API
   - name: favorites_folder
-    description: 收藏夹文件夹
+    description: 收藏夹目录
   - name: favorites
     description: 收藏站点
   - name: account
