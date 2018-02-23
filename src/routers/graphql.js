@@ -1,6 +1,6 @@
 import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
 import koaRouter from 'koa-router';
-import account from './account';
+import account from '../schema/account';
 import {
     GraphQLObjectType,
     GraphQLSchema

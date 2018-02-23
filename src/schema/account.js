@@ -12,6 +12,7 @@ const User = new GraphQLObjectType({
     description: 'User对象',
     fields: {
         secretText:{
+            description:'密文',
             type: GraphQLString,
         },
         _id: {
@@ -39,6 +40,7 @@ export default {
     type: new GraphQLList(User),
     description: '密码本',
     resolve: async function (_, args) {
+        console.log(args);
         let list = await Account.getAll();
         return list;
     }

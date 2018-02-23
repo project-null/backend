@@ -1,45 +1,31 @@
 
 
-import Router  from 'koa-router';
+import Router from 'koa-router';
 import common from './lib/common';
 import favoritesModel from '../models/favorites';
 
-let favoritesFolderModel = require('../models/favoritesFolder');
-
+import favoritesFolderModel from '../models/favoritesFolder';
 
 const favorites = new Router({
-    prefix: '/v1/favorites/folder'
+    prefix: '/v1/favorites'
 });
 
-favorites.get('/:folderID', async ctx => {
-    const folderID = ctx.params.folderID;
-    await favoritesModel.getAll({ folderID }).then(r => ctx.body = r);
-});
+favorites.get('/website', async ctx => {    
 
-favorites.post('/:folderID/website', async ctx => {
-    const body = ctx.request.body;
-    const folderID = ctx.params.folderID;
-
-    const paramterType = {
-        name: {
-            require: true,
-            type: 'string',
-            range: [1, 20],
-        },
-        url: {
-            require: true,
-            type: 'string',
-        }
-    };
-
-    let result = common.parameterCheck(body, paramterType)
-    if (result.length > 0) {
-        return common.returnError(ctx, 400, 1, result);
+    try {        
+        await favoritesModel.getAll().then(r => common.returnDone(ctx,r));
+    } catch (e) {
+        await common.returnError(ctx, 400, 123, e)
     }
+});
+
+favorites.post('/website', async ctx => {
+    const body = ctx.request.body;
+    const { folderID } = body;
+
     try {
         let folder = await favoritesFolderModel.get(folderID);
         if (!!folder) {
-            body.folderID = folderID;
             await favoritesModel.save(body).then(r => common.returnDone(ctx));
         } else {
             common.returnError(ctx, 400, 123, '收藏夹不存在')
@@ -49,45 +35,26 @@ favorites.post('/:folderID/website', async ctx => {
     }
 });
 
-favorites.delete('/:folderID/website/:wsid', async ctx => {
-    const { folderID, wsid } = ctx.params;
+favorites.delete('/website/:wsid', async ctx => {
+    const body = ctx.request.body;
+    const { wsid } = ctx.params;
+    const { folderID } = body;
 
     try {
-        let folder = await favoritesFolderModel.get(folderID);
-        if (!!folder) {
-            await favoritesModel.delete(wsid).then(r => common.returnDone(ctx));
-        } else {
-            common.returnError(ctx, 400, 123, '收藏夹不存在')
-        }
+        await favoritesModel.delete(wsid).then(r => common.returnDone(ctx));
     } catch (e) {
         common.returnError(ctx, 400, 123, e)
     }
 });
 
-favorites.put('/:folderID/website/:wsid', async ctx => {
+favorites.put('/website/:wsid', async ctx => {
     const body = ctx.request.body;
-    const { folderID, wsid } = ctx.params;
-
-    const paramterType = {
-        name: {
-            require: true,
-            type: 'string',
-            range: [1, 20],
-        },
-        url: {
-            require: true,
-            type: 'string',
-        }
-    };
-    let result = common.parameterCheck(body, paramterType)
-    if (result.length > 0) {
-        return common.returnError(ctx, 400, 1, result);
-    }
-
+    const { wsid } = ctx.params;
+    const { folderID } = body;
+        
     try {
         let folder = await favoritesFolderModel.get(folderID);
         if (!!folder) {
-            body.folderID = folderID;
             await favoritesModel.update(wsid, body).then(r => common.returnDone(ctx));
         } else {
             common.returnError(ctx, 400, 123, '收藏夹不存在')
@@ -95,10 +62,6 @@ favorites.put('/:folderID/website/:wsid', async ctx => {
     } catch (e) {
         common.returnError(ctx, 400, 123, e)
     }
-});
-
-favorites.put('/', async function (ctx, next) {
-
 });
 
 export default favorites;

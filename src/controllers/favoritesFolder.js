@@ -6,6 +6,15 @@ const favoritesFolder = new Router({
     prefix: '/v1/favorites/folder'
 });
 
+favoritesFolder.get('/', async ctx => {
+    await favoritesFolderModel.getAll()
+        .then(list => {
+            ctx.body = list;
+        }).catch(e => {
+            common.returnError(ctx, 500, 1001, e)
+        });
+});
+
 favoritesFolder.post('/', async ctx => {
     let object = ctx.request.body;
     const { name, desc, order } = object;
@@ -23,15 +32,6 @@ favoritesFolder.post('/', async ctx => {
         .then(() =>
             common.returnDone(ctx)
         ).catch(e => {
-            common.returnError(ctx, 500, 1001, e)
-        });
-});
-
-favoritesFolder.get('/', async ctx => {
-    await favoritesFolderModel.getAll()
-        .then(list => {
-            ctx.body = list;
-        }).catch(e => {
             common.returnError(ctx, 500, 1001, e)
         });
 });
@@ -68,7 +68,7 @@ favoritesFolder.delete('/:id', async ctx => {
     let id = ctx.params.id;
     if (!!id) {
         await favoritesFolderModel.delete(id).then(r => {
-            return common.returnDone(ctx, r);
+            return common.returnDone(ctx);
         }).catch(err => {
             return common.returnError(ctx, 500, 1001, err);
         });

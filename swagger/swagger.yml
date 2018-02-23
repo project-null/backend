@@ -120,8 +120,8 @@ paths:
   /v1/favorites/folder:
     get:
       tags:
-        - favorites
-      description: 获取所有收藏夹
+        - favorites_folder
+      description: 获取所有的收藏夹文件夹
       parameters:
         - in: header
           name: token
@@ -136,7 +136,7 @@ paths:
           description: no enough input
     post:
       tags:
-        - favorites
+        - favorites_folder
       description: 添加收藏夹
       parameters:
         - in: header
@@ -155,29 +155,10 @@ paths:
           description: ''
         '400':
           description: no enough input
-  /v1/favorites/folder/{folderID}:
-    get:
-      tags:
-        - favorites
-      description: 列出该收藏夹下的所有地址
-      parameters:
-        - in: header
-          name: token
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: path
-          name: folderID
-          description: 收藏夹ID        
-      responses:
-        '200':
-          description: ''
-        '400':
-          description: no enough input
+  /v1/favorites/folder/{folderID}:    
     put:
       tags:
-        - favorites
+        - favorites_folder
       description: 添加收藏夹
       parameters:
         - in: header
@@ -201,7 +182,7 @@ paths:
           description: no enough input
     delete:
       tags:
-        - favorites
+        - favorites_folder
       description: 删除收藏夹文件夹
       parameters:
         - in: header
@@ -211,7 +192,7 @@ paths:
             format: uuid
           required: true
         - in: path
-          name: id
+          name: folderID
           description: 收藏夹目录ID
       responses:
         '200':
@@ -219,7 +200,24 @@ paths:
         '400':
           description: no enough input
 
-  /v1/favorites/folder/{folderID}/website:
+  # 收藏夹站点 start
+  /v1/favorites/website:
+    get:
+      tags:
+        - favorites
+      description: 获取所有的收藏站点
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
     post:
       tags:
         - favorites
@@ -231,9 +229,6 @@ paths:
             type: string
             format: uuid
           required: true
-        - in: path
-          name: folderID
-          description: 收藏夹目录ID
         - in: body
           name: body
           description: 收藏夹信息
@@ -243,9 +238,8 @@ paths:
         '200':
           description: ''
         '400':
-          description: no enough input  
-                    
-  /v1/favorites/folder/{folderID}/website/{wsID}:
+          description: no enough input               
+  /v1/favorites/website/{wsID}:
     put:
       tags:
         - favorites
@@ -257,9 +251,6 @@ paths:
             type: string
             format: uuid
           required: true
-        - in: path
-          name: folderID
-          description: 收藏夹目录ID
         - in: path
           name: wsID
           description: 站点ID
@@ -285,9 +276,6 @@ paths:
             format: uuid
           required: true
         - in: path
-          name: folderID
-          description: 收藏夹目录ID
-        - in: path
           name: wsID
           description: 站点ID     
       responses:
@@ -295,7 +283,7 @@ paths:
           description: ''
         '400':
           description: no enough input
-  # 网页收藏夹 end
+  # 收藏夹站点 end
 
   /v1/accounts:
     get:
@@ -409,9 +397,14 @@ definitions:
         type: string
       url:
         type: string
+      folderID:
+        type: string
+
   favorites_folder:
     type: object
-    properties:      
+    properties:
+      parentID:
+        type: string
       name:
         type: string
       desc:
@@ -436,6 +429,8 @@ definitions:
 tags:
   - name: user
     description: 用户相关API
+  - name: favorites_folder
+    description: 收藏夹文件夹
   - name: favorites
     description: 收藏站点
   - name: account
