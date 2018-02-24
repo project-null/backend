@@ -283,7 +283,29 @@ paths:
           description: ''
         '400':
           description: no enough input
-  # 收藏夹站点 end
+  /v1/favorites/website/import:
+    post:
+      tags:
+        - favorites
+      description: 导入收藏夹文件
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true        
+        - in: body
+          name: body
+          description: 站点内容
+          schema:
+            $ref: '#/definitions/favorites_import'
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+          # 收藏夹站点 end
 
   /v1/accounts:
     get:
@@ -364,6 +386,17 @@ paths:
           description: ''
         '400':
           description: no enough input
+      
+  /v1/common/upload:    
+    post:      
+      summary: Uploads a file.
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: upfile
+          type: file
+          description: The file to upload.
 
 definitions:
   userLogin:
@@ -426,6 +459,14 @@ definitions:
         type: array
       common:
         type: string
+  favorites_import:
+      type: Object
+      properties:
+        filename:
+          type: string
+        folderID:
+          type: string
+
 tags:
   - name: user
     description: 用户相关API

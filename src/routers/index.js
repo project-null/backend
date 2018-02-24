@@ -2,7 +2,7 @@ import usersController from '../controllers/users';
 import favoritesFolderController from '../controllers/favoritesFolder';
 import favoritesController from '../controllers/favorites';
 import accountController from '../controllers/accounts';
-
+import commonController from '../controllers/common';
 
 const checkToken = async (ctx, next) => {
     if (ctx.request.url === '/v1/users/login') {
@@ -30,4 +30,5 @@ export default (app) => {
     app.use(favoritesFolderController.routes());
     app.use(favoritesController.routes());
     app.use(accountController.routes());
+    app.use(commonController.routes());    
 };
