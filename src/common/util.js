@@ -3,7 +3,7 @@ import path from 'path';
 
 export default  {
     config: null,
-
+    
     // 读取配置文件
     getConfig() {
         if (!!this.config) {

@@ -7,8 +7,7 @@ const _ = require('lodash');
 class Index extends DBController {
     constructor() {
         super(config);
-        this.loginUserMap = {};
-        console.log('users model init');
+        this.loginUserMap = {};        
         this.checkToken();
         this.tokenCheckCycleTime = 10;
     }
@@ -18,10 +17,8 @@ class Index extends DBController {
             let now = new Date().getTime() / 1000;
             _.forOwn(this.loginUserMap, item => {
                 if ((now - item.loginTime) > 60 * this.tokenCheckCycleTime) {
-                    delete this.loginUserMap[item.token];
-                    // console.log(`${item.token}已失效`);
-                }
-                // console.log(item.token, item.loginTime - now);
+                    delete this.loginUserMap[item.token];                    
+                }                
             });
         }, 1000 * 60)
     }
@@ -48,6 +45,5 @@ class Index extends DBController {
     }
 }
 let usersController = new Index(config);
-
 
 export default usersController;

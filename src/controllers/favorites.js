@@ -92,15 +92,17 @@ favorites.post('/website/import', async ctx => {
                     matchResult = text.match(/">.*<\/A>/);
                     urlStr = matchResult[0];
                     let name = urlStr.substring(2, urlStr.length - 4);
+
                     // console.log(`name ${name}`);
                     // console.log(`url: ${url}`);
                     // console.log(`\n`);
 
-                    favoritesModel.save({
-                        name,
-                        desc: '收藏夹文件导入',
-                        url
-                    });                    
+                    // favoritesModel.save({
+                    //     name,
+                    //     desc: '收藏夹文件导入',
+                    //     url
+                    // });                    
+                    
                     arr = reg.exec(str);
                 }
                 return common.returnDone(ctx);
