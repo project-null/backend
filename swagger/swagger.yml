@@ -1,7 +1,8 @@
 swagger: '2.0'
 info:
   title: QbVIP backend
-  description: QbVIP backend
+  description: | 
+    graphiql:   http://localhost:19931/graphiql
   version: 1.0.0
 paths:
 
@@ -73,6 +74,23 @@ paths:
           description: 用户信息
           schema:
             $ref: '#/definitions/userLogin'   
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
+  /v1/users/logout:
+    delete:
+      tags:
+        - user
+      description: 登出系统
+      parameters:        
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
       responses:
         '200':
           description: ''
@@ -393,6 +411,12 @@ paths:
       consumes:
         - multipart/form-data
       parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true  
         - in: formData
           name: upfile
           type: file

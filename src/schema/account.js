@@ -7,9 +7,9 @@ import {
 } from 'graphql';
 import Account from '../models/accounts';
 
-const User = new GraphQLObjectType({
-    name: 'User',
-    description: 'User对象',
+const account = new GraphQLObjectType({
+    name: 'account',
+    description: '账号信息',
     fields: {
         secretText:{
             description:'密文',
@@ -37,8 +37,8 @@ const User = new GraphQLObjectType({
 });
 
 export default {
-    type: new GraphQLList(User),
-    description: '密码本',
+    type: new GraphQLList(account),
+    description: '账号信息',
     resolve: async function (_, args) {
         console.log(args);
         let list = await Account.getAll();

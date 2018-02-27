@@ -22,7 +22,7 @@ const upload = multer({ storage });
 commonController.post('/upload', upload.single('upfile'), async (ctx, next) => {
     ctx.body = {
         filename: ctx.req.file.filename//返回文件名  
-    }
+    };
 });
 
 export default commonController;

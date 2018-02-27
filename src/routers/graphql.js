@@ -3,6 +3,7 @@ import koaRouter from 'koa-router';
 
 import account from '../schema/account';
 import favorites from '../schema/favorites';
+import favoritesFolder from '../schema/favoritesFolder';
 
 import {
     GraphQLObjectType,
@@ -13,7 +14,8 @@ const Query = new GraphQLObjectType({
     name: 'Query',
     fields: {
         account,
-        favorites
+        favorites,
+        favoritesFolder
     }
 });
 

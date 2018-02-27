@@ -1,4 +1,5 @@
-const common = {    
+import loginInfo from '../../models/loginInfo';
+const common = {
     // 统一错误返回格式
     returnError(ctx, httpStatus, errorCode, data) {
         ctx.status = httpStatus;
@@ -12,6 +13,9 @@ const common = {
             code: 0,
             message,
         };
+    },
+    async getUserID(token) {
+        return await loginInfo.getOneByKey({ token });
     },
     parameterCheck(object, parameter) {
         let keys = Object.keys(parameter);

@@ -2,8 +2,16 @@ import Router from 'koa-router';
 import userModel from '../models/users';
 import common from './lib/common';
 
+import loginInfo from '../models/loginInfo';
+
 const users = new Router({
     prefix: '/v1/users'
+});
+
+users.delete('/logout', async ctx => {
+    let token = ctx.header.token;    
+    await loginInfo.deleteOneByKey({ token });
+    return common.returnDone(ctx, token);
 });
 
 users.post('/login', async ctx => {

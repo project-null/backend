@@ -17,7 +17,7 @@ favoritesFolder.get('/', async ctx => {
 
 favoritesFolder.post('/', async ctx => {
     let object = ctx.request.body;
-    const { name, desc, order } = object;
+    const { name, desc, order } = object;    
 
     if (!!!name || !!!desc) {
         return common.returnError(ctx, 400, 1001, '参数错误');
@@ -67,7 +67,8 @@ favoritesFolder.put('/:id', async ctx => {
 favoritesFolder.delete('/:id', async ctx => {
     let id = ctx.params.id;
     if (!!id) {
-        await favoritesFolderModel.delete(id).then(r => {
+
+        await favoritesFolderModel.delete(id).then(r => {            
             return common.returnDone(ctx);
         }).catch(err => {
             return common.returnError(ctx, 500, 1001, err);

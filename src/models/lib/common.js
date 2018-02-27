@@ -54,8 +54,8 @@ class Index {
             throw e;
         }
     }
-    async deleteByUUID(uuid) {
-        return this.getCollection().removeOne(uuid);
+    async deleteOneByKey(key) {
+        return this.getCollection().removeOne(key);
     }
 }
 export default Index;

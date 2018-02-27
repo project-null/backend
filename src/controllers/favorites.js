@@ -64,20 +64,20 @@ favorites.put('/website/:wsid', async ctx => {
 
 favorites.post('/website/import', async ctx => {
     const body = ctx.request.body;
-    const { filename } = body;
+    const { filename, folderID } = body;
 
     var fs = require('fs');
     var path = require('path');
 
     try {
         let filePath = path.join(__dirname, '..', '..', 'public', filename);
-
+        
         await fs.stat(filePath, function (err, stats) {
             if (err) {
                 return common.returnError(ctx, 400, 1, err);
             } else {
                 var buff = fs.readFileSync(filePath);
-                var str = buff.toString();                
+                var str = buff.toString();
                 let reg = /<A.*<\/A>/g;
                 let arr = reg.exec(str);
                 while (arr) {
@@ -93,21 +93,17 @@ favorites.post('/website/import', async ctx => {
                     urlStr = matchResult[0];
                     let name = urlStr.substring(2, urlStr.length - 4);
 
-                    // console.log(`name ${name}`);
-                    // console.log(`url: ${url}`);
-                    // console.log(`\n`);
-
-                    // favoritesModel.save({
-                    //     name,
-                    //     desc: '收藏夹文件导入',
-                    //     url
-                    // });                    
-                    
+                    favoritesModel.save({
+                        folderID,
+                        name,
+                        desc: '收藏夹文件导入' + name,
+                        url
+                    });
                     arr = reg.exec(str);
-                }
-                return common.returnDone(ctx);
+                }                
             }
-        });
+        });        
+        return common.returnDone(ctx);
     } catch (e) {
         return common.returnError(ctx, 400, 1, "文件不存在");
     }
