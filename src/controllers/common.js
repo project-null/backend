@@ -19,7 +19,7 @@ var storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-commonController.post('/upload', upload.single('upfile'), async (ctx, next) => {
+commonController.post('/upload', upload.single('file'), async (ctx, next) => {
     ctx.body = {
         filename: ctx.req.file.filename//返回文件名  
     };

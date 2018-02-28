@@ -7,7 +7,7 @@ import {
 } from 'graphql';
 import Account from '../models/accounts';
 
-const account = new GraphQLObjectType({
+const graphqlObject = new GraphQLObjectType({
     name: 'account',
     description: '账号信息',
     fields: {
@@ -37,7 +37,7 @@ const account = new GraphQLObjectType({
 });
 
 export default {
-    type: new GraphQLList(account),
+    type: new GraphQLList(graphqlObject),
     description: '账号信息',
     resolve: async function (_, args) {
         console.log(args);

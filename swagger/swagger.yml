@@ -418,7 +418,7 @@ paths:
             format: uuid
           required: true  
         - in: formData
-          name: upfile
+          name: file
           type: file
           description: The file to upload.
 

@@ -70,8 +70,17 @@ favorites.post('/website/import', async ctx => {
     var path = require('path');
 
     try {
+        let folder = await favoritesFolderModel.get(folderID);
+        if (!folder) {
+            return common.returnError(ctx, 400, 1, `folderID ${folderID}不存在`);
+        }
+    } catch (e) {
+        return common.returnError(ctx, 400, 1, e);
+    }
+
+    try {
         let filePath = path.join(__dirname, '..', '..', 'public', filename);
-        
+
         await fs.stat(filePath, function (err, stats) {
             if (err) {
                 return common.returnError(ctx, 400, 1, err);
@@ -100,9 +109,9 @@ favorites.post('/website/import', async ctx => {
                         url
                     });
                     arr = reg.exec(str);
-                }                
+                }
             }
-        });        
+        });
         return common.returnDone(ctx);
     } catch (e) {
         return common.returnError(ctx, 400, 1, "文件不存在");

@@ -4,6 +4,7 @@ import koaRouter from 'koa-router';
 import account from '../schema/account';
 import favorites from '../schema/favorites';
 import favoritesFolder from '../schema/favoritesFolder';
+import users from '../schema/users';
 
 import {
     GraphQLObjectType,
@@ -13,6 +14,7 @@ import {
 const Query = new GraphQLObjectType({
     name: 'Query',
     fields: {
+        users,
         account,
         favorites,
         favoritesFolder
@@ -22,7 +24,6 @@ const Query = new GraphQLObjectType({
 const schema = new GraphQLSchema({
     query: Query
 });
-
 
 const graphQLrouter = new koaRouter();
 graphQLrouter.post('/graphql', graphqlKoa({ schema }));

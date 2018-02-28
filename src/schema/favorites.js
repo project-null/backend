@@ -8,7 +8,7 @@ import {
 
 import models from '../models/favorites';
 
-const favorites = new GraphQLObjectType({
+const graphqlObject = new GraphQLObjectType({
     name: 'favorites',
     description: 'User对象',
     fields: {
@@ -38,7 +38,7 @@ const favorites = new GraphQLObjectType({
 });
 
 export default {
-    type: new GraphQLList(favorites),
+    type: new GraphQLList(graphqlObject),
     description: '收藏的站点',
     args: {
         folderID: {
