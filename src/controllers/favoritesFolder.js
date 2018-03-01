@@ -7,7 +7,10 @@ const favoritesFolder = new Router({
 });
 
 favoritesFolder.get('/', async ctx => {
-    await favoritesFolderModel.getAll()
+    let token = ctx.header.token;
+    let userID = await common.getUserID(token);
+
+    await favoritesFolderModel.getAll({userID})
         .then(list => {
             ctx.body = list;
         }).catch(e => {
@@ -18,6 +21,10 @@ favoritesFolder.get('/', async ctx => {
 favoritesFolder.post('/', async ctx => {
     let object = ctx.request.body;
     const { name, desc, order } = object;    
+
+    let token = ctx.header.token;
+    let userID = await common.getUserID(token);
+    object.userID = userID;
 
     if (!!!name || !!!desc) {
         return common.returnError(ctx, 400, 1001, '参数错误');
@@ -41,6 +48,7 @@ favoritesFolder.put('/:id', async ctx => {
     let _id = ctx.params.id;
 
     const { name, desc, order } = body;
+    delete body.userID;
 
     if (!!!_id || !!!name || !!!desc) {
         return common.returnError(ctx, 400, 1001, '参数错误');

@@ -14,9 +14,12 @@ const common = {
             message,
         };
     },
+    
     async getUserID(token) {
-        return await loginInfo.getOneByKey({ token });
+        let user =  await loginInfo.getOneByKey({ token });
+        return user.userID;
     },
+
     parameterCheck(object, parameter) {
         let keys = Object.keys(parameter);
 

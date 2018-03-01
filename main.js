@@ -31,8 +31,8 @@ import util from './src/common/util.js';
 app.context.config = util.getConfig();
 
 
-import graphql from './src/routers/graphql';
-graphql(app);
+// import graphql from './src/routers/graphql';
+// graphql(app);
 
 
 console.info(`server port : ${util.getConfig().port}`);

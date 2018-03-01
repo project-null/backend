@@ -9,9 +9,11 @@ const favorites = new Router({
 });
 
 favorites.get('/website', async ctx => {
-
+    let token = ctx.header.token;
+    let userID = await common.getUserID(token);
+    
     try {
-        await favoritesModel.getAll().then(r => common.returnDone(ctx, r));
+        await favoritesModel.getAll({userID}).then(r => ctx.body = r);
     } catch (e) {
         await common.returnError(ctx, 400, 123, e)
     }
@@ -65,7 +67,9 @@ favorites.put('/website/:wsid', async ctx => {
 favorites.post('/website/import', async ctx => {
     const body = ctx.request.body;
     const { filename, folderID } = body;
-
+    const token = ctx.header.token; 
+    const userID = common.getUserID(token);
+    
     var fs = require('fs');
     var path = require('path');
 
@@ -106,7 +110,8 @@ favorites.post('/website/import', async ctx => {
                         folderID,
                         name,
                         desc: '收藏夹文件导入' + name,
-                        url
+                        url,
+                        userID
                     });
                     arr = reg.exec(str);
                 }

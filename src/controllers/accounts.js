@@ -9,7 +9,12 @@ const account = new Router({
 });
 
 account.get('/', async ctx => {
-    await AccountModel.getAll().then(users => ctx.body = users);
+    let token = ctx.header.token;
+    let userID = await common.getUserID(token);
+    
+    await AccountModel.getAll({userID}).then(users=>{
+        ctx.body = users;
+    });
 });
 
 account.delete('/:id', async ctx => {
@@ -28,9 +33,9 @@ account.post('/', async ctx => {
     let account = ctx.request.body;
 
     let token = ctx.header.token;
-    let userInfo = await common.getUserID(token);
+    let userID = await common.getUserID(token);
     
-    account.userID = userInfo.userID;
+    account.userID = userID;
     const { url, type, accountName, secretText } = account;
 
     if (!url || !type || !accountName || !secretText) {
@@ -43,6 +48,8 @@ account.post('/', async ctx => {
 
 account.put('/', async ctx => {
     let account = ctx.request.body;
+    delete account.userID;
+    
     const { _id, url, type, accountName, secretText } = account;
 
     if (!url || !type || !accountName || !secretText || !_id) {

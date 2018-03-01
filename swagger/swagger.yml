@@ -479,8 +479,8 @@ definitions:
         type: string
       password:
         type: string
-      labels:
-        type: array
+      secretText:
+        type: string
       common:
         type: string
   favorites_import:

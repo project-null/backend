@@ -36,6 +36,7 @@ class Index {
         let _id = this.getObjectID(id);
         return this.getCollection().findOne({ _id });
     }
+    
     async getOneByKey(obj) {
         return this.getCollection().findOne(obj);
     }
