@@ -57,5 +57,9 @@ class Index {
     async deleteOneByKey(key) {
         return this.getCollection().removeOne(key);
     }
+
+    async deleteByKey(key) {
+        return this.getCollection().remove(key, { safe: true });
+    }
 }
 export default Index;

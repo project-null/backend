@@ -2,6 +2,7 @@
 import Router from 'koa-router';
 import common from './lib/common';
 import AccountModel from '../models/accounts';
+import loginInfo from '../models/loginInfo';
 
 const account = new Router({
     prefix: '/v1/accounts'
@@ -25,6 +26,11 @@ account.delete('/:id', async ctx => {
 
 account.post('/', async ctx => {
     let account = ctx.request.body;
+
+    let token = ctx.header.token;
+    let userInfo = await common.getUserID(token);
+    
+    account.userID = userInfo.userID;
     const { url, type, accountName, secretText } = account;
 
     if (!url || !type || !accountName || !secretText) {

@@ -6,9 +6,7 @@ import logger from 'koa-logger';
 
 const app = new Koa();
 
-// 使用日志模块 start
 app.use(logger())
-// 使用日志模块 end
 
 // swagger start
 import serve from 'koa-static-server';
@@ -26,9 +24,7 @@ router(app);
 
 // 初始化mongodb数据库并增加到context中
 import dbClient from './src/models/lib/mongodb.js';
-app.context.dbClient = dbClient;
-app.context.dbClient.connect();
-
+dbClient.connect();
 
 // 读取配置文件
 import util from './src/common/util.js';
@@ -38,11 +34,6 @@ app.context.config = util.getConfig();
 import graphql from './src/routers/graphql';
 graphql(app);
 
-// 添加context
-import userModel from './src/models/users';
-app.context.model = {
-    user: userModel
-}
 
 console.info(`server port : ${util.getConfig().port}`);
 app.listen(util.getConfig().port); 

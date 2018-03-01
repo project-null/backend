@@ -30,6 +30,9 @@ const graphqlObject = new GraphQLObjectType({
         name: {
             type: GraphQLString
         },
+        userID:{
+            type:GraphQLString
+        },
         accountName:{
             type:GraphQLString,
         }
@@ -39,8 +42,8 @@ const graphqlObject = new GraphQLObjectType({
 export default {
     type: new GraphQLList(graphqlObject),
     description: '账号信息',
-    resolve: async function (_, args) {
-        console.log(args);
+    resolve: async function (q, args) {
+        console.log(q,args);
         let list = await Account.getAll();
         return list;
     }

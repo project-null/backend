@@ -19,6 +19,7 @@ class Index extends DBController {
             }
         });
     }
+
     async check(tokenID, tokenSurvivalTime) {
         let tokenInfo = await this.getOneByKey({ token: tokenID });
         if (!!tokenInfo) {
@@ -37,14 +38,13 @@ class Index extends DBController {
             token: uuid.v4(),
             loginTime: new Date().getTime() / 1000,
             userID: _id,
-            loginName: loginName,
+            loginName,
         }
 
-        let userExist = await this.getOneByKey({ loginName });
-
-        if (!!userExist) {
-            let tokenUUID = this.genUUID(userExist._id);
-            await this.deleteOneByKey({ token: tokenUUID });
+        try{
+            await this.deleteByKey({loginName});
+        }catch(e){
+            console.error(e);
         }
         await this.save(tokenInfo);
         return tokenInfo;

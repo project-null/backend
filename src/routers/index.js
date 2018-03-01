@@ -35,7 +35,7 @@ setInterval(() => {
 }, 1000 * 60)
 
 export default (app) => {
-    // app.use(checkToken);
+    app.use(checkToken);
     app.use(usersController.routes());
     app.use(favoritesFolderController.routes());
     app.use(favoritesController.routes());
