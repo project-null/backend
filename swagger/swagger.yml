@@ -220,6 +220,22 @@ paths:
 
   # 收藏夹站点 start
   /v1/favorites/website:
+    get:
+      tags:
+        - favorites
+      description: 获取所有的站点信息
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
     post:
       tags:
         - favorites
@@ -245,7 +261,7 @@ paths:
     get:
       tags:
         - favorites
-      description: 获取所有的收藏站点
+      description: 获取某个文件夹下的所有站点
       parameters:
         - in: path
           name: folderID

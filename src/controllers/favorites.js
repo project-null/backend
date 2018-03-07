@@ -7,6 +7,13 @@ import favoritesFolderModel from '../models/favoritesFolder';
 const favorites = new Router({
     prefix: '/v1/favorites'
 });
+favorites.get('/website', async ctx => {
+    try {
+        await favoritesModel.getAll().then(r => ctx.body = r);
+    } catch (e) {
+        await common.returnError(ctx, 400, 123, e)
+    }
+});
 
 favorites.get('/website/:folderID', async ctx => {
     let userID = await common.getUserID(ctx);
