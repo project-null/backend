@@ -8,11 +8,12 @@ const favorites = new Router({
     prefix: '/v1/favorites'
 });
 
-favorites.get('/website', async ctx => {
+favorites.get('/website/:folderID', async ctx => {
     let userID = await common.getUserID(ctx);
+    const  {folderID} = ctx.params;
     
     try {
-        await favoritesModel.getAll({userID}).then(r => ctx.body = r);
+        await favoritesModel.getAll({folderID}).then(r => ctx.body = r);
     } catch (e) {
         await common.returnError(ctx, 400, 123, e)
     }

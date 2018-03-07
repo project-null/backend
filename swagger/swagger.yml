@@ -220,22 +220,6 @@ paths:
 
   # 收藏夹站点 start
   /v1/favorites/website:
-    get:
-      tags:
-        - favorites
-      description: 获取所有的收藏站点
-      parameters:
-        - in: header
-          name: token
-          schema:
-            type: string
-            format: uuid
-          required: true
-      responses:
-        '200':
-          description: ''
-        '400':
-          description: no enough input
     post:
       tags:
         - favorites
@@ -257,7 +241,25 @@ paths:
           description: ''
         '400':
           description: no enough input               
-  /v1/favorites/website/{wsID}:
+  /v1/favorites/website/{folderID}:
+    get:
+      tags:
+        - favorites
+      description: 获取所有的收藏站点
+      parameters:
+        - in: path
+          name: folderID
+        - in: header
+          name: token
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: no enough input
     put:
       tags:
         - favorites
@@ -270,7 +272,7 @@ paths:
             format: uuid
           required: true
         - in: path
-          name: wsID
+          name: folderID
           description: 站点ID
         - in: body
           name: body
