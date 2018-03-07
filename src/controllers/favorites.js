@@ -9,8 +9,7 @@ const favorites = new Router({
 });
 
 favorites.get('/website', async ctx => {
-    let token = ctx.header.token;
-    let userID = await common.getUserID(token);
+    let userID = await common.getUserID(ctx);
     
     try {
         await favoritesModel.getAll({userID}).then(r => ctx.body = r);
@@ -67,8 +66,8 @@ favorites.put('/website/:wsid', async ctx => {
 favorites.post('/website/import', async ctx => {
     const body = ctx.request.body;
     const { filename, folderID } = body;
-    const token = ctx.header.token; 
-    const userID = common.getUserID(token);
+     
+    const userID = common.getUserID(ctx);
     
     var fs = require('fs');
     var path = require('path');

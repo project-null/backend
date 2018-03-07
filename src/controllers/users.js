@@ -38,7 +38,7 @@ users.post('/login', async ctx => {
         .then(r => ctx.body = r)
         .catch(e => {
             common.returnError(ctx, 401, 2, e);
-        })
+        });
 });
 
 users.get('/', async (ctx, next) => {

@@ -7,8 +7,8 @@ const favoritesFolder = new Router({
 });
 
 favoritesFolder.get('/', async ctx => {
-    let token = ctx.header.token;
-    let userID = await common.getUserID(token);
+    
+    let userID = await common.getUserID(ctx);
 
     await favoritesFolderModel.getAll({userID})
         .then(list => {
@@ -22,8 +22,8 @@ favoritesFolder.post('/', async ctx => {
     let object = ctx.request.body;
     const { name, desc, order } = object;    
 
-    let token = ctx.header.token;
-    let userID = await common.getUserID(token);
+    
+    let userID = await common.getUserID(ctx);
     object.userID = userID;
 
     if (!!!name || !!!desc) {

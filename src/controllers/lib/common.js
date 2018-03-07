@@ -15,7 +15,8 @@ const common = {
         };
     },
     
-    async getUserID(token) {
+    async getUserID(ctx) {
+        const token = ctx.header.token;
         let user =  await loginInfo.getOneByKey({ token });
         return user.userID;
     },
