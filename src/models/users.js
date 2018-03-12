@@ -13,6 +13,21 @@ class Index extends DBController {
         this.tokenCheckCycleTime = 10;
     }
 
+    async initAdminUser() {
+
+        let admin = {
+            loginName: 'admin',
+            nikeName: 'administrator',
+            email: 'admin@admin.com',
+            password: 'admin',
+        };
+
+        let adminUser = await this.getOneByKey({ loginName: admin.loginName });
+        if (!adminUser) {
+            this.save(admin);
+        }
+    }
+
     checkToken() {
         setInterval(() => {
             let now = new Date().getTime() / 1000;
@@ -41,4 +56,7 @@ class Index extends DBController {
 }
 let usersController = new Index(config);
 
+setTimeout(() => {
+    usersController.initAdminUser();
+}, 500);
 export default usersController;

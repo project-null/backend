@@ -9,7 +9,7 @@ export default  {
         if (!!this.config) {
             return this.config;
         }
-        let configPath = path.join(__dirname, '..', 'config.json');
+        let configPath = path.join(__dirname, '..','..','config', 'config.json');
         this.config = JSON.parse(fs.readFileSync(configPath));
         return this.config;
     },

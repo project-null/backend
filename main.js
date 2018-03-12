@@ -90,6 +90,7 @@ class StartUp {
     // 启动http服务
     listen() {
         console.info(`server port : ${this.util.getConfig().port}`);
+        console.info(`defualt user admin:admin`);
         this.app.listen(this.util.getConfig().port);
     }
 }
