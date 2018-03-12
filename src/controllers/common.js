@@ -9,7 +9,7 @@ const commonController = new Router({
 var storage = multer.diskStorage({
     //文件保存路径  
     destination: function (req, file, cb) {
-        cb(null, 'public/')
+        cb(null, 'static/files')
     },
     //修改文件名称  
     filename: function (req, file, cb) {
@@ -20,8 +20,10 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage });
 commonController.post('/upload', upload.single('file'), async (ctx, next) => {
+    let fileName = ctx.req.file.filename; 
     ctx.body = {
-        filename: ctx.req.file.filename//返回文件名  
+        path: `/files/${fileName}`,
+        fileName
     };
 });
 
