@@ -14,10 +14,10 @@ const common = {
             message,
         };
     },
-    
+
     async getUserID(ctx) {
         const token = ctx.header.token;
-        let user =  await loginInfo.getOneByKey({ token });
+        let user = await loginInfo.getOneByKey({ token });
         return user.userID;
     },
 
@@ -29,17 +29,19 @@ const common = {
             if (!object.hasOwnProperty(v)) {
                 return `字段${v}:缺失`;
             }
+
             let value = object[v];
             let check = parameter[v];
-
-            // 检查必填项
-            if (!!check.require && !!!value || value === undefined) {
-                return `字段${v}:必填`
-            }
 
             // 检查类型
             if (!!check.type && typeof value !== check.type) {
                 return `字段${v}:类型必须为${check.type}`
+            }
+
+            if (!!check.require) {
+                if (check.type === 'string' && !!!value) {
+                    return `字段${v}:必填`
+                }
             }
 
             if (!!check.range) {

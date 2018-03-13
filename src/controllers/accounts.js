@@ -10,8 +10,8 @@ const account = new Router({
 
 account.get('/', async ctx => {
     let userID = await common.getUserID(ctx);
-    
-    await AccountModel.getAll({userID}).then(users=>{
+
+    await AccountModel.getAll({ userID }).then(users => {
         ctx.body = users;
     });
 });
@@ -30,32 +30,41 @@ account.delete('/:id', async ctx => {
 
 account.post('/', async ctx => {
     let account = ctx.request.body;
-    
+
     let userID = await common.getUserID(ctx);
-    
+
     account.userID = userID;
     const { url, type, accountName, secretText } = account;
 
-    if (!url || !type || !accountName || !secretText) {
-        return common.returnError(ctx, 400, 1, "url, type, accountName, secretText 不可为空");
-    }
+    const paramterType = {
+        url: { require: true, type: 'string' },
+        type: { require: true, type: 'number' },
+        accountName: { require: true, type: 'string' },
+        secretText: { require: true, type: 'string' },
+    };
 
-    AccountModel.save(account);
-    return common.returnDone(ctx);
+    let result = common.parameterCheck(account, paramterType)
+    if(!!result){
+        AccountModel.save(account);
+        return common.returnDone(ctx);
+    }else{
+        return common.returnError(ctx,1,result);
+    }   
 });
 
 account.put('/', async ctx => {
     let account = ctx.request.body;
     delete account.userID;
-    
+
     const { _id, url, type, accountName, secretText } = account;
+    const paramterType = {
+        url: { require: true, type: 'string' },
+        type: { require: true, type: 'number' },
+        accountName: { require: true, type: 'string' },
+        secretText: { require: true, type: 'string' },
+    };
 
-    if (!url || !type || !accountName || !secretText || !_id) {
-        return common.returnError(ctx, 400, 1, "_id,url, type, accountName, secretText 不可为空");
-    }
-
-    let result = await AccountModel.get(_id);
-
+    let result = common.parameterCheck(account, paramterType)
     if (!!result) {
         await AccountModel.update(_id, account).then(r => {
             common.returnDone(ctx);
@@ -63,7 +72,7 @@ account.put('/', async ctx => {
             common.returnError(ctx, 500, err);
         });
     } else {
-        common.returnError(ctx, 500, `${uuid}账号不存在`);
+        common.returnError(ctx, 500, result);
     }
 });
 

@@ -11,7 +11,7 @@ import path from 'path';
 
 
 let indexStr = null;
-const tokenSurvivalTime = 30;
+const tokenSurvivalTime = 10;
 setInterval(() => {
     loginInfo.checkTokens(tokenSurvivalTime);
 }, 1000 * 60)

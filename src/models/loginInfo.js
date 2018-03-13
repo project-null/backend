@@ -13,6 +13,7 @@ class Index extends DBController {
         let now = new Date().getTime() / 1000;
         let tokens = await this.getAll();
         tokens.map(t => {
+            console.log('check tokens')
             if ((now - t.loginTime) > 60 * tokenCheckCycleTime) {
                 console.log(`token${t.token}已经失效`);
                 this.delete(t._id);
